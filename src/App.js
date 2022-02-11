@@ -1,5 +1,5 @@
-import Navbar from "./layout/navbar/Navbar";
 import { WeatherProvider} from "./context/WeatherContext";
+import Navbar from "./layout/navbar/Navbar";
 
 function App() {
   return (
