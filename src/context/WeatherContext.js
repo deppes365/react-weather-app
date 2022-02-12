@@ -22,13 +22,25 @@ export const WeatherProvider = ({ children }) => {
         setLocation(locationArray)    
 	}
 
+    async function fetchWeather([city, state], unit) {
+        try {
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${state}&units=${unit ? 'metric' : 'imperial'}&appid=${process.env.REACT_APP_WEATHER_API}`)
+
+            const data = await response.json()
+            console.log(data?.message ? data.message : data);
+        } catch(e) {
+            console.log(`Something went wrong: ${e}`);
+        }
+    }
+
 	return (
 		<WeatherContext.Provider value={{ 
             location, 
             setLocation,
             input,
             setInput,
-            formatLocation 
+            formatLocation,
+            fetchWeather
         }}>
 			{children}
 		</WeatherContext.Provider>

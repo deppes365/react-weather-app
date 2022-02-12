@@ -1,20 +1,25 @@
 import '../navbar/navbar.scss';
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import WeatherContext from '../../context/WeatherContext';
 
 function Navbar() {
-	const {input, setInput, formatLocation } = useContext(WeatherContext);
+    const [unit, setUnit] = useState(false)
 
-	
+	const {input, setInput, formatLocation, fetchWeather, location } = useContext(WeatherContext);
+
+    useEffect(() => {
+        fetchWeather(location, unit)
+        document.querySelector('input#location').value = '';
+    }, [location])
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		console.log(formatLocation(input));
+		const weatherLocation = formatLocation(input);
 	};
 
-	const handleChange = e => setInput(e.target.value);
-
-	
+	const handleChange = e => {
+        setInput(e.target.value)
+    };
 
 	return (
 		<div className="nav-bar">
@@ -31,8 +36,14 @@ function Navbar() {
 					<button type="submit">Search</button>
 				</div>
 			</form>
+            <label className="switch">
+                <input type="checkbox" onChange={(e) => setUnit(e.target.checked)}/>
+                <span className="slider round"></span>
+            </label>
 		</div>
 	);
 }
+
+
 
 export default Navbar;
